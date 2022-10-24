@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    <h1>Products</h1>
+    {% if products is defined and products|length %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>IMG</th>
+                <th>created_at</th>
+                <th>updated_at</th>
+                <th>name</th>
+                <th>desc</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>
+                        {% for image in product.images %}
+                            {% if image.main == true %}
+                                <img class="img-responsive" width="100" height="100" src="{{ asset('/Images/ProductImages/'~ image.filename) }}">
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ product.createdAt|date('Y/m/d') }}</td>
+                    <td>{{ product.updatedAt|date('Y/m/d') }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>
+                        <a href="{{ url('product_show', {id: product.id}) }}">show</a>
+                        <a href="{{ url('product_update', {id: product.id}) }}">update</a>
+                        <a href="{{ path('wishlist_add', {id: product.id}) }}">add to wishlist</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url('product_create') }}">Create new product</a>
+    {% else %}
+        <p>Brak produktów</p>
+        <a href="{{ url('product_create') }}">Create new product</a>
+    {% endif %}
+{% endblock %}

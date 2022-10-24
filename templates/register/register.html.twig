@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Register your account
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Register</h1>
+        {{ form_start(form, { method: 'POST', action: url('register') }) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="register" class="btn btn-primary" />
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

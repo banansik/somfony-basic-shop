@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block body %}
+    {% if product is defined and product|length %}
+        <dl class="dl-horizontal">
+            <dt>ID</dt>
+                <dd>{{ product.id }}</dd>
+            <dt>created_at</dt>
+                <dd>{{ product.createdAt|date('Y/m/d') }}</dd>
+            <dt>updated_at</dt>
+                <dd>{{ product.updatedAt|date('Y/m/d') }}</dd>
+            <dt>name</dt>
+                <dd>{{  product.name }}</dd>
+            <a href="{{ path('wishlist_add', {id: product.id}) }}">add to wishlist</a>
+        </dl>
+        <div>
+            {{ form_start(form, { method: 'DELETE', action: url('product_delete', {id: product.id}) }) }}
+            <div>
+                <input type="submit" value="delete" class="btn btn-primary">
+            </div>
+            {{ form_end(form) }}
+            <a href="{{ url('product_index') }}">products</a>
+        </div>
+        <div class="table-responsive-md">
+            <table class="table">
+                {% for category in product.categories %}
+                    <tr>
+                        <td>
+                            <a href="{{ url('category_show', {'id' : category.id}) }}">{{ category.name }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% for image in product.images %}
+                    <img class="img-responsive" width="100" height="100" src="{{ asset('/Images/ProductImages/'~ image.filename) }}">
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No matching product</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    <h1>Categories</h1>
+    {% if categories is defined and categories|length %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>created_at</th>
+                <th>updated_at</th>
+                <th>name</th>
+                <th>desc</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.createdAt|date('Y/m/d') }}</td>
+                    <td>{{ category.updatedAt|date('Y/m/d') }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.description }}</td>
+                    <td>
+                        <a href="{{ url('category_show', {id: category.id}) }}">show</a>
+                        <a href="{{ url('category_update', {id: category.id}) }}">update</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url('category_create') }}">Create new category</a>
+    {% else %}
+        <p>Brak kategorii</p>
+        <a href="{{ url('category_create') }}">Create new category</a>
+    {% endif %}
+{% endblock %}

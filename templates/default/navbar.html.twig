@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+    {% set current_path = app.request.get('_route') %}
+    {{ current_path }}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url('product_index') }}">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('category_index') }}">Category</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="{{ path('category_show', {id: category.id}) }}">{{ category.name }}</a>
+                            </li>
+                        </ul>
+                    {% endfor %}
+                </div>
+            </li><li class="nav-item">
+                <a class="nav-link" href="{{ path('wishlist_index') }}">Wishlist</a>
+            </li>
+
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <div class="form-control mr-sm-2">{{ app.user.email }} </div>
+                <a class="form-control mr-sm-2" href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
+            {% else %}
+                <a class="form-control mr-sm-2" href="{{ url('register') }}">{{ 'action_register'|trans }}</a>
+                <a class="form-control mr-sm-2" href="{{ url('app_login') }}">{{ 'action_login'|trans }}</a>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>

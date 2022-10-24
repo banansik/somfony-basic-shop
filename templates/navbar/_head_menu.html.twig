@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    {% set route = app.request.get('_route') %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link {% if route == 'product_index' %} active {% endif %}" href="{{ url('product_index') }}">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if route == 'category_index' %} active {% endif %}" href="{{ url('category_index') }}">Category</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle {% if route == 'category_show' %} active {% endif %}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                {{ render(controller(
+                    'App\\Controller\\MenuController::createMenu'
+                )) }}
+            </li><li class="nav-item">
+                <a class="nav-link" href="{{ path('lorem_ipsum') }}">Category2</a>
+            </li>
+            </li><li class="nav-item">
+                <a class="nav-link" href="{{ path('wishlist_index') }}">Wishlist</a>
+            </li>
+            </li><li class="nav-item">
+                {% if is_granted('ROLE_USER') %}
+                    <div>{{ app.user.email }}</div>
+                    <div>
+                        <a href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
+                    </div>
+                {% else %}
+                    <div>
+                        <a href="{{ url('app_login') }}">{{ 'action_login'|trans }}</a>
+                        <a href="{{ url('register') }}">{{ 'action_register'|trans }}</a>
+                    </div>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</nav>
